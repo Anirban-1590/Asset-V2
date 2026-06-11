@@ -27,11 +27,11 @@ export const useHomeData = () => {
     ],
   });
 
-  const isLoading = result.every((query) => query.isLoading);
+  const isLoading = result.some((query) => query.isLoading);
   const recommendedProperties = result[1].data?.data;
   const featuredProperties = result[0].data?.data;
 
-  const isError = result.some((query) => query.data?.error);
+  const isError = result.some((query) => query.isError || query.data?.error);
 
   return {
     isLoading,

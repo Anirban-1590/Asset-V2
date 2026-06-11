@@ -25,7 +25,7 @@ export function HomePage() {
         <Text className="">
           Hi,{" "}
           <Text className="font-bold">
-            {user?.emailAddresses[0].emailAddress}
+            {user?.emailAddresses[0].emailAddress ?? "Guest"}
           </Text>
         </Text>
       </View>
@@ -44,7 +44,7 @@ export function HomePage() {
                 onPress={() => {
                   router.push("/(protected)/(tabs)/search");
                 }}
-                className="flex flex-row items- flex-1 gap-3 px-3 py-4 border border-gray-300 rounded-xl"
+                className="flex flex-row  flex-1 gap-3 px-3 py-4 border border-gray-300 rounded-xl"
               >
                 <Ionicons name="search-outline" size={22} color="red" />
                 <Text className=" text-sm text-gray-400">
