@@ -1,7 +1,6 @@
 import { useSyncUser } from "@/hooks/use-sync-user";
 import { useAuth } from "@clerk/expo";
 import { Redirect, Slot } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function ProtectedRootLayout() {
   const { isSignedIn, isLoaded } = useAuth();
@@ -11,9 +10,5 @@ export default function ProtectedRootLayout() {
 
   useSyncUser();
 
-  return (
-    <SafeAreaView className="p-3">
-      <Slot />
-    </SafeAreaView>
-  );
+  return <Slot />;
 }

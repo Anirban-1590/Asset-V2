@@ -1,3 +1,4 @@
+import { cn } from "@/utils";
 import { ReactNode } from "react";
 import {
   Text,
@@ -11,6 +12,7 @@ interface IButtonProps {
   textProps?: TextProps;
   buttonProps?: TouchableOpacityProps;
   children?: ReactNode;
+  varient?: "primary" | "outline" | "ghost";
 }
 
 export function Button({
@@ -18,11 +20,15 @@ export function Button({
   text,
   buttonProps,
   children,
+  varient = "primary",
 }: IButtonProps) {
   return (
     <TouchableOpacity
       {...buttonProps}
-      className={`bg-primary px-7 rounded-xl mt-3 min-h-[4rem] flex items-center flex-row justify-center ${buttonProps?.className}`}
+      className={cn(
+        `px-7 rounded-xl mt-3 min-h-[4rem] flex items-center flex-row justify-center ${varient === "primary" ? "bg-primary" : varient === "outline" ? "bg-transparent border border-primary" : "bg-transparent"} `,
+        buttonProps?.className,
+      )}
     >
       {children ? (
         children
