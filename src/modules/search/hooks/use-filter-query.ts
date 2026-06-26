@@ -22,7 +22,10 @@ export function useFilterQuery({ appliedFilter }: IUseFilterQueryProps) {
       query = query.eq("type", appliedFilter?.type);
     }
     if (appliedFilter?.bedrooms) {
-      query = query.eq("bedrooms", appliedFilter?.bedrooms);
+      query =
+        appliedFilter.bedrooms === 4
+          ? query.gte("bedrooms", appliedFilter?.bedrooms)
+          : query.eq("bedrooms", appliedFilter?.bedrooms);
     }
     if (appliedFilter?.minPrice) {
       query = query.gte("price", appliedFilter?.minPrice);
