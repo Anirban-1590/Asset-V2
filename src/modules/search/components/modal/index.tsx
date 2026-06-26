@@ -89,7 +89,7 @@ export function FilterModal({
       animationType="slide"
       onRequestClose={onClose}
     >
-      <View className=" flex flex-row items-center justify-between px-5 py-3 border-b border-primary">
+      <View className=" flex flex-row items-center justify-between  py-3 border-b border-primary">
         <Button
           buttonProps={{
             onPress: () => {
