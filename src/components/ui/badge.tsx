@@ -83,27 +83,27 @@ function Badge({
       <Component
         className={cn(
           badgeVariants({ variant }),
-          !badgeButton ? "pointer-events-none" : "",
+          !badgeButton
+            ? "pointer-events-none"
+            : "flex flex-row gap-3 items-center",
           className,
         )}
         {...props}
       >
-        <View className="flex flex-row gap-3 items-center ">
-          {children}
-          {badgeButton && (
-            <TouchableOpacity
-              {...badgeButtonProps}
-              className={cn(
-                "bg-white  rounded-full ",
-                badgeButtonProps?.className,
-              )}
-            >
-              {badgeButtonComponent ?? (
-                <Ionicons name="close" size={15} color={"#F5004F"} />
-              )}
-            </TouchableOpacity>
-          )}
-        </View>
+        {children}
+        {badgeButton && (
+          <TouchableOpacity
+            {...badgeButtonProps}
+            className={cn(
+              "bg-white  rounded-full ",
+              badgeButtonProps?.className,
+            )}
+          >
+            {badgeButtonComponent ?? (
+              <Ionicons name="close" size={15} color={"#F5004F"} />
+            )}
+          </TouchableOpacity>
+        )}
       </Component>
     </TextClassContext.Provider>
   );
