@@ -41,20 +41,10 @@ export function SearchPage() {
   // const params = useSearchParams();
 
   const activeFilterCount = filterCount;
-  const handleAppliedFilter = ({
-    search,
-    type,
-    bedrooms,
-    minPrice,
-    maxPrice,
-  }: any) => {
-    setAppliedFilters((prev: any) => ({
-      ...prev,
-      search: search,
-      type: type,
-      bedrooms: bedrooms,
-      minPrice: minPrice,
-      maxPrice: maxPrice,
+  const handleAppliedFilter = (filter: Record<string, any>) => {
+    setAppliedFilters((prev: Record<string, any> | null) => ({
+      ...(prev ?? {}),
+      ...filter,
     }));
   };
 
@@ -80,14 +70,22 @@ export function SearchPage() {
             placeholder="Search properties, cities..."
             autoCapitalize="none"
             value={search}
-            onChangeText={setSearch}
+            onChangeText={(value) => {
+              setSearch(value);
+
+              //TODO: adda debounce method to debounce this handler
+              handleAppliedFilter({ search: value });
+            }}
           />
           {search && (
             <Button
               buttonProps={{
                 className:
-                  "ml-auto bg-slate-400 rounded-full  !px-0 !p-0 !min-h-[0.1rem] mt-0 !h-fit !rounded-full",
-                onPress: () => setSearch(""),
+                  "ml-auto bg-slate-400 rounded-full  px-0 p-0 !min-h-[0.1rem] mt-0 !h-fit !rounded-full",
+                onPress: () => {
+                  setSearch("");
+                  handleAppliedFilter({ search: "" });
+                },
               }}
             >
               <Ionicons name="close-outline" color="white" size={18} />
@@ -122,6 +120,7 @@ export function SearchPage() {
                   setType(null);
                   handleAppliedFilter({ type: null });
                 },
+                accessibilityLabel: "Remove type filter",
               }}
               className="px-2"
               variant={"default"}
@@ -139,6 +138,7 @@ export function SearchPage() {
                   setBedrooms(null);
                   handleAppliedFilter({ bedrooms: null });
                 },
+                accessibilityLabel: "Remove bedrooms filter",
               }}
               className="px-2 items-center"
               variant={"default"}
@@ -161,6 +161,7 @@ export function SearchPage() {
                   setMaxPrice(null);
                   handleAppliedFilter({ minPrice: null, maxPrice: null });
                 },
+                accessibilityLabel: "Remove price filter",
               }}
               className="px-2 items-center"
               variant={"default"}
