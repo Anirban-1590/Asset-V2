@@ -1,9 +1,5 @@
-import { Text, View } from "react-native";
+import { SearchPage } from "@/modules/search";
 
 export default function Search() {
-  return (
-    <View>
-      <Text>search</Text>
-    </View>
-  );
+  return <SearchPage />;
 }
