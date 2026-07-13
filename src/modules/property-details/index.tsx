@@ -18,6 +18,7 @@ import {
   View,
 } from "react-native";
 
+import { useState } from "react";
 import Swiper from "react-native-swiper";
 import { CompactMap } from "./components/compact-map";
 import { DetailItem } from "./components/detail-item";
@@ -27,10 +28,10 @@ import { useSellProperty } from "./hooks/use-sell-property";
 
 const { width } = Dimensions.get("window");
 
-//TODO: add show more button to description
 //TODO: add full image viewer
 
 export function Property({ id }: { id: string }) {
+  const [showExpandedDescription, setShowExpandedDescription] = useState(false);
   const router = useRouter();
   const { data: propertyData, isLoading, error } = usePropertyDetails(id);
   const { isAdmin } = useAdmin();
@@ -236,8 +237,25 @@ export function Property({ id }: { id: string }) {
             />
           </View>
           <Text className="mt-5 font-bold">Description</Text>
+          <View>
+            <Text className="text-gray-400 text-start ">
+              {showExpandedDescription
+                ? propertyData?.description
+                : `${propertyData?.description?.slice(0, 100)}...`}
+            </Text>
+            <Button
+              varient="ghost"
+              buttonProps={{
+                className: "w-fit min-h-fit p-0 mt-0",
+                onPress: () => {
+                  setShowExpandedDescription((prev) => !prev);
+                },
+              }}
+              textProps={{ className: "text-sm !text-primary" }}
+              text="Show more"
+            />
+          </View>
 
-          <Text className="text-gray-400">{propertyData?.description}</Text>
           <Text className="mt-5 font-bold">Location</Text>
           <View className="flex items-center flex-row gap-1">
             <Ionicons name="location-outline" size={20} />
