@@ -1,12 +1,17 @@
 import { Property } from "@/types";
 import { formatPrice } from "@/utils/format-price";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useRouter } from "expo-router";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
 export function FeaturedCard({ property }: { property: Property }) {
+  const router = useRouter();
+
   return (
     <View className="w-[16rem] h-full  mr-4 rounded-lg overflow-hidden relative">
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => router.push(`/(protected)/property/${property.id}`)}
+      >
         <Image
           className="w-full h-[10rem]"
           source={{ uri: property?.images?.[0] || " " }}
