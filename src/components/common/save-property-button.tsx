@@ -1,5 +1,6 @@
 import { ISaveProperty } from "@/hooks/use-save";
 import Ionicons from "@expo/vector-icons/Ionicons";
+
 import { ActivityIndicator } from "react-native";
 import { Button } from "./button";
 
@@ -7,6 +8,8 @@ export default function SavePropertyButton({
   isPropertySaved,
   saveLoading,
   toggleSave,
+  propertySaveFetchError,
+  saveError,
 }: ISaveProperty) {
   return (
     <Button

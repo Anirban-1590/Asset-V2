@@ -55,6 +55,9 @@ export const useSaveProperty = (
       await queryClient.invalidateQueries({
         queryKey: ["fetch-saved-property", propertyId],
       });
+      await queryClient.invalidateQueries({
+        queryKey: ["fetch-saved-properties", userId],
+      });
     },
   });
   const {
@@ -77,6 +80,9 @@ export const useSaveProperty = (
 
       await queryClient.invalidateQueries({
         queryKey: ["fetch-saved-property", propertyId],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ["fetch-saved-properties", userId],
       });
     },
   });

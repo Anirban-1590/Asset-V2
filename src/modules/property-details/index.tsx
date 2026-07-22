@@ -30,6 +30,7 @@ import { useSellProperty } from "./hooks/use-sell-property";
 const { width } = Dimensions.get("window");
 
 //TODO: add full image viewer
+//TODO: error handling
 
 export function Property({ id }: { id: string }) {
   const [showExpandedDescription, setShowExpandedDescription] = useState(false);

@@ -1,9 +1,10 @@
-import { Text, View } from "react-native";
+import Saved from "@/modules/saved";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function Saved() {
+export default function SavedPage() {
   return (
-    <View>
-      <Text>S</Text>
-    </View>
+    <SafeAreaView className="px-5">
+      <Saved />
+    </SafeAreaView>
   );
 }
