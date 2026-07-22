@@ -2,7 +2,18 @@ import { useAuth } from "@clerk/expo";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuthSupabase } from "./use-supabase";
 
-export const useSaveProperty = (propertyId: string, onSave?: () => void) => {
+export interface ISaveProperty {
+  isPropertySaved: boolean;
+  propertySaveFetchError: boolean;
+  saveLoading: boolean;
+  toggleSave: () => void;
+  saveError: boolean;
+}
+
+export const useSaveProperty = (
+  propertyId: string,
+  onSave?: () => void,
+): ISaveProperty => {
   const { userId } = useAuth();
   const supabase = useAuthSupabase();
   const queryClient = useQueryClient();
