@@ -1,12 +1,34 @@
+import SavePropertyButton from "@/components/common/save-property-button";
+import { useSaveProperty } from "@/hooks/use-save";
 import { Property } from "@/types";
 import { formatPrice } from "@/utils/format-price";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { useMemo } from "react";
+import {
+  Image,
+  Text,
+  ToastAndroid,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export function RecommendedCards({ property }: { property: Property }) {
   const router = useRouter();
-  const isSaved = true;
+  const {
+    isPropertySaved,
+    propertySaveFetchError,
+    saveLoading,
+    toggleSave,
+    saveError,
+  } = useSaveProperty(property.id);
+  useMemo(() => {
+    ToastAndroid.BOTTOM;
+
+    if (saveError) {
+      ToastAndroid.show("Failed to save property. Please try again!", 500);
+    }
+  }, [saveError]);
 
   return (
     <View className="mb-7 rounded-lg overflow-hidden relative">
@@ -54,23 +76,13 @@ export function RecommendedCards({ property }: { property: Property }) {
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={{
-          shadowColor: "#000",
-          shadowOffset: { width: 0, height: 4 },
-          shadowOpacity: 0.15,
-          shadowRadius: 8,
-
-          elevation: 6,
-        }}
-        className="absolute top-2 right-2 p-2  bg-white rounded-full"
-      >
-        <Ionicons
-          name={isSaved ? "heart" : "heart-outline"}
-          color="#F5004F"
-          size={22}
-        />
-      </TouchableOpacity>
+      <SavePropertyButton
+        isPropertySaved={isPropertySaved}
+        saveError={saveError}
+        saveLoading={saveLoading}
+        toggleSave={toggleSave}
+        propertySaveFetchError={propertySaveFetchError}
+      />
     </View>
   );
 }
