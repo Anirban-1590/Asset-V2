@@ -30,7 +30,6 @@ import { useSellProperty } from "./hooks/use-sell-property";
 const { width } = Dimensions.get("window");
 
 //TODO: add full image viewer
-//TODO: error handling
 
 export function Property({ id }: { id: string }) {
   const [showExpandedDescription, setShowExpandedDescription] = useState(false);
@@ -44,13 +43,9 @@ export function Property({ id }: { id: string }) {
     toggleSave,
     saveError,
   } = useSaveProperty(id);
-  const { markPropertyAsSold, isMarkingPropertyAsSoldPending, isError } =
+  const { markPropertyAsSold, isMarkingPropertyAsSoldPending } =
     useSellProperty(id);
-  const {
-    deleteProperty,
-    isDeletePropertyPending,
-    isError: isDeletePropertyError,
-  } = useDeleteProperty(id);
+  const { deleteProperty, isDeletePropertyPending } = useDeleteProperty(id);
 
   const handleWhatsAppContact = async () => {
     const text = `Hello! I am interested in this Property - ${propertyData?.title}. Can you share more details`;
@@ -93,19 +88,24 @@ export function Property({ id }: { id: string }) {
     ]);
   };
 
+  if (isLoading) {
+    return (
+      <View className="items-center justify-center  w-full h-full">
+        <ActivityIndicator size="large" className=" text-primary" />
+      </View>
+    );
+  }
+  if (!isLoading && error) {
+    <View className="items-center justify-center  w-full h-full">
+      <Text>Something went wrong. Please try again!</Text>
+    </View>;
+  }
   if (!propertyData && !isLoading) {
     return (
       <View className="items-center justify-center  w-full h-full">
         <Text className="text-center text-gray-500 text-base">
           No properties found
         </Text>
-      </View>
-    );
-  }
-  if (isLoading) {
-    return (
-      <View className="items-center justify-center  w-full h-full">
-        <ActivityIndicator size="large" className=" text-primary" />
       </View>
     );
   }

@@ -25,7 +25,7 @@ export const useDeleteProperty = (propertyId: string) => {
       ToastAndroid.BOTTOM;
 
       if (error || data?.error) {
-        ToastAndroid.show("Failed to remove property. Please try again!", 500);
+        ToastAndroid.show("Failed to delete property. Please try again!", 500);
       }
 
       ToastAndroid.show("Property Removed", 300);
