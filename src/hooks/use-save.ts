@@ -106,7 +106,7 @@ export const useSaveProperty = (
 
   return {
     isPropertySaved: !!isPropertySaved?.data,
-    propertySaveFetchError,
+    propertySaveFetchError: propertySaveFetchError || !!isPropertySaved?.error,
     saveLoading,
     toggleSave,
     saveError,

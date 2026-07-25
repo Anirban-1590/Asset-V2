@@ -4,7 +4,7 @@ import { Property } from "@/types";
 import { formatPrice } from "@/utils/format-price";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
-import { useMemo } from "react";
+import { useEffect } from "react";
 import {
   Image,
   Text,
@@ -22,7 +22,7 @@ export function RecommendedCards({ property }: { property: Property }) {
     toggleSave,
     saveError,
   } = useSaveProperty(property.id);
-  useMemo(() => {
+  useEffect(() => {
     ToastAndroid.BOTTOM;
 
     if (saveError) {
