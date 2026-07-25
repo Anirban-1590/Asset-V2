@@ -13,7 +13,12 @@ export default function Saved() {
       </View>
     );
   }
-  if (!savedProperties && !isLoading) {
+  if (!isLoading && savePropertiesError) {
+    <View className="items-center justify-center  w-full h-full">
+      <Text>Something went wrong. Please try again!</Text>
+    </View>;
+  }
+  if (!savedProperties?.length && !isLoading) {
     return (
       <View className="items-center justify-center  w-full h-full">
         <Text className="text-center text-gray-500 text-base">
@@ -25,17 +30,12 @@ export default function Saved() {
       </View>
     );
   }
-  if (!isLoading && savePropertiesError) {
-    <View className="items-center justify-center  w-full h-full">
-      <Text>Something went wrong. Please try again!</Text>
-    </View>;
-  }
 
   return (
     savedProperties?.length && (
       <View className=" gap-10">
-        <View className="pt-4">
-          <Text className="text-xl font-bold text-primary">Saved</Text>
+        <View className="pt-5">
+          <Text className="text-xl font-bold text-primary pt-2">Saved</Text>
           {!isLoading && (
             <Text className="my-1 text-gray-400 text-sm">
               {savedProperties.length}
@@ -43,12 +43,13 @@ export default function Saved() {
             </Text>
           )}
         </View>
+
         <FlatList
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => {
             return <RecommendedCards property={item.properties} />;
           }}
-          contentContainerClassName="px-2 pb-[11rem]"
+          contentContainerClassName="px-2 pb-[6rem]"
           showsVerticalScrollIndicator={false}
           data={savedProperties}
         />
