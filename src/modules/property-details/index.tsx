@@ -96,9 +96,11 @@ export function Property({ id }: { id: string }) {
     );
   }
   if (!isLoading && error) {
-    <View className="items-center justify-center  w-full h-full">
-      <Text>Something went wrong. Please try again!</Text>
-    </View>;
+    return (
+      <View className="items-center justify-center  w-full h-full">
+        <Text>Something went wrong. Please try again!</Text>
+      </View>
+    );
   }
   if (!propertyData && !isLoading) {
     return (
