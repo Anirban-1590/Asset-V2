@@ -2,7 +2,18 @@ import { useAuth } from "@clerk/expo";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuthSupabase } from "./use-supabase";
 
-export const useSaveProperty = (propertyId: string, onSave?: () => void) => {
+export interface ISaveProperty {
+  isPropertySaved: boolean;
+  propertySaveFetchError: boolean;
+  saveLoading: boolean;
+  toggleSave: () => void;
+  saveError: boolean;
+}
+
+export const useSaveProperty = (
+  propertyId: string,
+  onSave?: () => void,
+): ISaveProperty => {
   const { userId } = useAuth();
   const supabase = useAuthSupabase();
   const queryClient = useQueryClient();
@@ -44,6 +55,9 @@ export const useSaveProperty = (propertyId: string, onSave?: () => void) => {
       await queryClient.invalidateQueries({
         queryKey: ["fetch-saved-property", propertyId],
       });
+      await queryClient.invalidateQueries({
+        queryKey: ["fetch-saved-properties", userId],
+      });
     },
   });
   const {
@@ -67,6 +81,9 @@ export const useSaveProperty = (propertyId: string, onSave?: () => void) => {
       await queryClient.invalidateQueries({
         queryKey: ["fetch-saved-property", propertyId],
       });
+      await queryClient.invalidateQueries({
+        queryKey: ["fetch-saved-properties", userId],
+      });
     },
   });
 
@@ -89,7 +106,7 @@ export const useSaveProperty = (propertyId: string, onSave?: () => void) => {
 
   return {
     isPropertySaved: !!isPropertySaved?.data,
-    propertySaveFetchError,
+    propertySaveFetchError: propertySaveFetchError || !!isPropertySaved?.error,
     saveLoading,
     toggleSave,
     saveError,
