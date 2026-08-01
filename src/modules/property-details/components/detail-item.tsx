@@ -12,8 +12,8 @@ export function DetailItem({
 }) {
   return (
     <View className="flex gap-1 items-center">
-      <Ionicons color={"#F5004F"} size={20} name={icon} />
-      <Text className="font-bold">{value}</Text>
+      <Ionicons className="text-primary" size={20} name={icon} />
+      <Text className="font-bold text-text">{value}</Text>
       <Text className=" text-gray-400 font-light">{label}</Text>
     </View>
   );

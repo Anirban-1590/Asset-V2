@@ -18,12 +18,11 @@ export function MenuItem({
       }}
       varient="ghost"
     >
-      <Ionicons name={icon} color="red" size={22} />
-      <Text className=" font-medium text-base">{label}</Text>
+      <Ionicons name={icon} className="text-primary" size={22} />
+      <Text className=" font-medium text-base text-text">{label}</Text>
       <Ionicons
-        className="ml-auto"
+        className="ml-auto text-primary"
         name={"chevron-forward-outline"}
-        color="red"
         size={22}
       />
     </Button>

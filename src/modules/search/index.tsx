@@ -17,6 +17,7 @@ import { useFilterQuery } from "./hooks/use-filter-query";
 import { useSearchStore } from "./store/use-search";
 
 //TODO: IMPROVE THE SEARCH EXPERIENCE , THE FILTERS DONT WORK WELL
+//TODO: added a try again button if request fails
 
 export function SearchPage() {
   const {
@@ -32,23 +33,18 @@ export function SearchPage() {
     setMinPrice,
     filterCount,
   } = useSearchStore();
-
   const [appliedFilter, setAppliedFilters] = useState<any | null>(null);
-
   const [showFilters, setShowFilters] = useState(false);
   const { data, isLoading, isError } = useFilterQuery({ appliedFilter });
 
-  // const params = useSearchParams();
-
   const activeFilterCount = filterCount;
+
   const handleAppliedFilter = (filter: Record<string, any>) => {
     setAppliedFilters((prev: Record<string, any> | null) => ({
       ...(prev ?? {}),
       ...filter,
     }));
   };
-
-  // console.log(data, "data");
 
   return (
     <SafeAreaView className="p-5 flex flex-col gap-3 h-full">
@@ -64,9 +60,9 @@ export function SearchPage() {
           // }}
           className="flex flex-row items-center py-2  flex-1 gap-3 px-3  border border-gray-300 rounded-xl"
         >
-          <Ionicons name="search-outline" size={22} color="red" />
+          <Ionicons name="search-outline" size={22} className="text-primary" />
           <TextInput
-            className=" text-sm "
+            className=" text-sm text-text"
             placeholder="Search properties, cities..."
             autoCapitalize="none"
             value={search}
@@ -98,8 +94,6 @@ export function SearchPage() {
               " !p-4 z-0 bg-primary rounded-lg relative !mt-0 !min-h-[0.1rem]",
             onPress: () => setShowFilters(true),
           }}
-          // onPress={() => setShowFilters(true)}
-          // className="p-4 z-0 bg-primary rounded-lg relative"
         >
           <Ionicons name="options-outline" color="white" size={22} />
           {activeFilterCount > 0 && (
@@ -190,7 +184,9 @@ export function SearchPage() {
         )}
         {!isLoading && isError && (
           <View>
-            <Text>Something went wrong. Please try again!</Text>
+            <Text className="text-text">
+              Something went wrong. Please try again!
+            </Text>
           </View>
         )}
 
