@@ -1,5 +1,13 @@
 import { Button } from "@/components/common/button";
+import { GenericBottomSheet } from "@/components/common/generic-bottom-sheet";
 import { useAuth, useUser } from "@clerk/expo";
+import {
+  TextButton as ExpoButton,
+  Host,
+  RadioButton,
+  Spacer,
+} from "@expo/ui/jetpack-compose";
+import { height, weight } from "@expo/ui/jetpack-compose/modifiers";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useMutation } from "@tanstack/react-query";
 import {
@@ -7,9 +15,12 @@ import {
   requestMediaLibraryPermissionsAsync,
 } from "expo-image-picker";
 import { useRouter } from "expo-router";
+import { useState } from "react";
 import {
   ActivityIndicator,
   Alert,
+  Appearance,
+  ColorSchemeName,
   Image,
   Linking,
   Text,
@@ -19,6 +30,10 @@ import {
 import { MenuItem } from "./components/menu-item";
 
 const mimeType = "image/webp" as const;
+const themeOptions = ["Dark", "Light", "System Default"] as const;
+
+//TODO: more settings option like delete account or 2FA or Notificaion settings
+//TODO: profile image picker has option to take a picture from camera and apply
 
 export function ProfileTab() {
   ToastAndroid.BOTTOM;
@@ -26,12 +41,14 @@ export function ProfileTab() {
   const { user, isLoaded } = useUser();
   const { signOut } = useAuth();
   const router = useRouter();
+  const [open, setOpen] = useState(false);
   const { mutateAsync, isPending } = useMutation({
     mutationKey: ["image-upload"],
     mutationFn: async (dataUrl: string) => {
       return await user?.setProfileImage({ file: dataUrl });
     },
   });
+  const [theme, setTheme] = useState<ColorSchemeName>("unspecified");
 
   async function pickImageHandler() {
     if (isPending) return;
@@ -136,7 +153,13 @@ export function ProfileTab() {
           label="Contact Support"
           onPress={() => {}}
         />
-        <MenuItem icon="brush-outline" label="Themes" onPress={() => {}} />
+        <MenuItem
+          icon="brush-outline"
+          label="Themes"
+          onPress={() => {
+            setOpen(true);
+          }}
+        />
       </View>
       <View className="w-full mt-auto">
         <Button
@@ -149,6 +172,42 @@ export function ProfileTab() {
           <Text className="text-white">Sign Out</Text>
         </Button>
       </View>
+
+      <GenericBottomSheet
+        isPresented={open}
+        onDismiss={() => {
+          setOpen(false);
+        }}
+      >
+        <Text className="text-text text-xl">Themes</Text>
+        {themeOptions.map((option, index) => {
+          const optionValue = (
+            option == "System Default" ? "unspecified" : option
+          ).toLowerCase() as ColorSchemeName;
+          return (
+            <ExpoButton
+              contentPadding={{
+                start: 20,
+                end: 20,
+              }}
+              onClick={async () => {
+                setTheme(optionValue);
+                Appearance.setColorScheme(optionValue);
+                // await storage.setItem(THEME_STORAGE_KEY, optionValue);
+                setOpen(false);
+              }}
+              key={index}
+            >
+              <Text className="text-text">{option}</Text>
+              <Spacer modifiers={[weight(1)]} />
+              <Host>
+                <RadioButton selected={theme == optionValue} />
+              </Host>
+            </ExpoButton>
+          );
+        })}
+        <Spacer modifiers={[height(20)]} />
+      </GenericBottomSheet>
     </View>
   );
 }

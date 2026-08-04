@@ -15,6 +15,7 @@ export function MenuItem({
     <Button
       buttonProps={{
         className: "w-full gap-3 px-2",
+        onPress: onPress,
       }}
       varient="ghost"
     >
