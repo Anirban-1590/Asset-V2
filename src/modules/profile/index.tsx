@@ -9,7 +9,6 @@ import {
 } from "@expo/ui/jetpack-compose";
 import { height, weight } from "@expo/ui/jetpack-compose/modifiers";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useMutation } from "@tanstack/react-query";
 import {
   launchImageLibraryAsync,
   requestMediaLibraryPermissionsAsync,
@@ -28,13 +27,14 @@ import {
   View,
 } from "react-native";
 import { MenuItem } from "./components/menu-item";
+import { useClerkUserImageUpdate } from "./hooks/use-clerk-userimage";
 
-const mimeType = "image/webp" as const;
+// const defaultimeType = "image/webp" as const;
 const themeOptions = ["Dark", "Light", "System Default"] as const;
 
 //TODO: more settings option like delete account or 2FA or Notificaion settings
 //TODO: profile image picker has option to take a picture from camera and apply
-
+//TODO: put the supabase user image update into its own mutation
 export function ProfileTab() {
   ToastAndroid.BOTTOM;
 
@@ -42,16 +42,14 @@ export function ProfileTab() {
   const { signOut } = useAuth();
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const { mutateAsync, isPending } = useMutation({
-    mutationKey: ["image-upload"],
-    mutationFn: async (dataUrl: string) => {
-      return await user?.setProfileImage({ file: dataUrl });
-    },
-  });
+
+  const { updateProfileImage, isProfileImageUpdating } =
+    useClerkUserImageUpdate({ user: user as any });
+
   const [theme, setTheme] = useState<ColorSchemeName>("unspecified");
 
   async function pickImageHandler() {
-    if (isPending) return;
+    if (isProfileImageUpdating) return;
     try {
       const permissionResult = await requestMediaLibraryPermissionsAsync();
       if (!permissionResult.granted) {
@@ -65,6 +63,7 @@ export function ProfileTab() {
             ],
           );
         }
+        return;
       }
 
       const pickedImgResult = await launchImageLibraryAsync({
@@ -78,10 +77,13 @@ export function ProfileTab() {
       if (pickedImgResult.canceled) return;
 
       const base64Data = pickedImgResult.assets[0].base64;
+      const mimeType = pickedImgResult.assets[0].mimeType;
+
+      if (!base64Data || !mimeType) return;
 
       const dataUrl = `data:${mimeType};base64,${base64Data}`;
 
-      await mutateAsync(dataUrl, {
+      await updateProfileImage(dataUrl, {
         onSuccess: () => {
           ToastAndroid.show("Profile picture updated!", 500);
         },
@@ -130,10 +132,12 @@ export function ProfileTab() {
               className:
                 "absolute bottom-0 right-0 w-fit h-fit rounded-full px-1.5 py-1.5 min-h-fit",
               onPress: pickImageHandler,
-              disabled: isPending,
+              disabled: isProfileImageUpdating,
+              accessibilityLabel: "Change profile image",
+              accessibilityRole: "button",
             }}
           >
-            {isPending ? (
+            {isProfileImageUpdating ? (
               <ActivityIndicator size={16} className=" text-white" />
             ) : (
               <Ionicons name="camera-outline" color="white" size={16} />
