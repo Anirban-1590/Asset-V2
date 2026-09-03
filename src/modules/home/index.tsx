@@ -20,11 +20,11 @@ export function HomePage() {
   const router = useRouter();
 
   return (
-    <View>
+    <View className="text-text">
       <View className="flex flex-row justify-end py-7 px-5">
         <Text className="">
           Hi,{" "}
-          <Text className="font-bold">
+          <Text className="font-bold text-text">
             {user?.emailAddresses[0].emailAddress ?? "Guest"}
           </Text>
         </Text>

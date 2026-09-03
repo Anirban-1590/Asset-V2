@@ -59,7 +59,6 @@ export function FilterModal({
     setBedrooms,
     filterCount,
   } = useSearchStore();
-
   const [locMaxPrice, setLocMaxPrice] = useState(
     maxPrice ? String(maxPrice) : "",
   );
@@ -89,7 +88,7 @@ export function FilterModal({
       animationType="slide"
       onRequestClose={onClose}
     >
-      <View className=" flex flex-row items-center justify-between  py-3 border-b border-primary">
+      <View className=" bg-background flex flex-row items-center justify-between  py-3 border-b border-primary">
         <Button
           buttonProps={{
             onPress: () => {
@@ -103,7 +102,7 @@ export function FilterModal({
         >
           <Text className="text-primary text-md font-semibold">Reset</Text>
         </Button>
-        <Text className="text-xl font-bold">Filters</Text>
+        <Text className="text-xl font-bold text-text">Filters</Text>
         <Button
           buttonProps={{
             onPress: onClose,
@@ -111,12 +110,12 @@ export function FilterModal({
           }}
           varient="ghost"
         >
-          <Ionicons name="close-outline" size={25} />
+          <Ionicons name="close-outline" size={25} className="text-text" />
         </Button>
       </View>
 
       <ScrollView
-        className="flex-1"
+        className="flex-1 bg-background"
         contentContainerStyle={{
           padding: 20,
           paddingBottom: 50,
@@ -126,7 +125,9 @@ export function FilterModal({
       >
         <View className="flex flex-col gap-8 h-full">
           <View>
-            <Text className="text-base font-semibold mb-3">Property Type</Text>
+            <Text className="text-base font-semibold mb-3 text-text">
+              Property Type
+            </Text>
             <View className="flex flex-row gap-3 flex-wrap">
               {TYPES.map((t) => {
                 const isActive = typeOfProperty === t.value;
@@ -151,7 +152,9 @@ export function FilterModal({
             </View>
           </View>
           <View>
-            <Text className="text-base font-semibold mb-3">Bedrooms</Text>
+            <Text className="text-base font-semibold mb-3 text-text">
+              Bedrooms
+            </Text>
             <View className="flex flex-row gap-3 flex-wrap">
               {BEDS.map((bed) => {
                 const isActive = bedrooms === bed.value;
@@ -180,7 +183,7 @@ export function FilterModal({
             </View>
           </View>
           <View>
-            <Text className="text-base font-semibold mb-3">
+            <Text className="text-base font-semibold mb-3 text-text">
               Price Range (₹)
             </Text>
 
@@ -215,7 +218,7 @@ export function FilterModal({
                         placeholder={placeholder}
                         onChangeText={onChange}
                         keyboardType="numeric"
-                        className=" py-2 flex-1"
+                        className=" py-2 flex-1 text-text"
                         id={label}
                       />
                     </View>

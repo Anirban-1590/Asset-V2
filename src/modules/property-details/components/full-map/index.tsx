@@ -34,13 +34,13 @@ export function FullMap() {
         >
           <Ionicons
             // name={isSaved ? "heart" : "heart-outline"}
-            color="#F5004F"
+            className="text-primary"
             size={22}
             name="arrow-back"
           />
         </Button>
         <View className="mr-auto">
-          <Text className="text-sm font-bold">{title}</Text>
+          <Text className="text-sm font-bold text-text">{title}</Text>
           <Text className="text-xs text-gray-400">{address}</Text>
         </View>
         <Button
@@ -58,7 +58,7 @@ export function FullMap() {
         >
           <Ionicons
             // name={isSaved ? "heart" : "heart-outline"}
-            color="#F5004F"
+            className="text-primary"
             size={20}
             name="navigate-outline"
           />

@@ -18,40 +18,52 @@ export function FeaturedCard({ property }: { property: Property }) {
           resizeMode="cover"
         />
 
-        <View className="py-5 px-2">
-          <Text className="font-semibold text-lg">{property.title}</Text>
-
-          <View className="flex items-center flex-row gap-1">
-            <Ionicons name="location-outline" size={16} />
-            <Text numberOfLines={1} className="text-sm text-gray-400">
-              {property.address}, {property.city}
+        <View className="bg-card px-3 pt-4 pb-1 h-full">
+          <View className="pb-5 ">
+            <Text className="font-semibold text-lg text-text">
+              {property.title}
             </Text>
-          </View>
-        </View>
-        <View className="flex flex-row px-2">
-          <Text className="text-lg font-bold text-primary mr-auto">
-            {formatPrice(property.price)}
-          </Text>
 
-          <View className="flex flex-row items-center gap-2">
-            <View className="flex flex-row items-center gap-1">
-              <Ionicons name="bed-outline" size={15} />
-              <Text>{property.bedrooms}</Text>
+            <View className="flex items-center flex-row gap-1">
+              <Ionicons
+                className="text-text"
+                name="location-outline"
+                size={16}
+              />
+              <Text numberOfLines={1} className="text-sm text-gray-400">
+                {property.address}, {property.city}
+              </Text>
             </View>
-            <View className="flex flex-row items-center gap-1">
-              <Ionicons name="water-outline" size={15} />
-              <Text>{property.bathrooms}</Text>
+          </View>
+          <View className="flex flex-row ">
+            <Text className="text-lg font-bold text-primary mr-auto">
+              {formatPrice(property.price)}
+            </Text>
+
+            <View className="flex flex-row items-center gap-2">
+              <View className="flex flex-row items-center gap-1">
+                <Ionicons className="text-text" name="bed-outline" size={15} />
+                <Text className="text-text">{property.bedrooms}</Text>
+              </View>
+              <View className="flex flex-row items-center gap-1">
+                <Ionicons
+                  className="text-text"
+                  name="water-outline"
+                  size={15}
+                />
+                <Text className="text-text">{property.bathrooms}</Text>
+              </View>
             </View>
           </View>
         </View>
       </TouchableOpacity>
 
-      <View className="absolute top-2 left-2 bg-white/70 px-3 py-1 rounded-3xl">
-        <Text className="capitalize text-sm">{property.type}</Text>
+      <View className="absolute top-2 left-2 bg-black/40 px-3 py-1 rounded-3xl">
+        <Text className="capitalize text-sm text-text">{property.type}</Text>
       </View>
 
       {property.is_sold && (
-        <View className="absolute top-2 right-2 bg-primary/70 px-3 py-1 rounded-3xl">
+        <View className="absolute top-2 right-2 bg-primary px-3 py-1 rounded-3xl">
           <Text className="capitalize text-sm text-white">Sold</Text>
         </View>
       )}

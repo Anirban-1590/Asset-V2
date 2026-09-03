@@ -30,6 +30,7 @@ import { useSellProperty } from "./hooks/use-sell-property";
 const { width } = Dimensions.get("window");
 
 //TODO: add full image viewer
+//TODO: added a try again button if request fails
 
 export function Property({ id }: { id: string }) {
   const [showExpandedDescription, setShowExpandedDescription] = useState(false);
@@ -98,7 +99,9 @@ export function Property({ id }: { id: string }) {
   if (!isLoading && error) {
     return (
       <View className="items-center justify-center  w-full h-full">
-        <Text>Something went wrong. Please try again!</Text>
+        <Text className="text-text">
+          Something went wrong. Please try again!
+        </Text>
       </View>
     );
   }
@@ -194,7 +197,9 @@ export function Property({ id }: { id: string }) {
               </Badge>
             )}
           </View>
-          <Text className="text-2xl font-bold">{propertyData?.title}</Text>
+          <Text className="text-2xl font-bold text-text">
+            {propertyData?.title}
+          </Text>
           <Text className="text-lg text-primary font-bold">
             {formatPrice(propertyData?.price as number)}
           </Text>
@@ -220,7 +225,7 @@ export function Property({ id }: { id: string }) {
               value={`${propertyData?.type} `}
             />
           </View>
-          <Text className="mt-5 font-bold">Description</Text>
+          <Text className="mt-5 font-bold text-text">Description</Text>
           <View>
             <Text className="text-gray-400 text-start ">
               {showExpandedDescription
@@ -240,9 +245,9 @@ export function Property({ id }: { id: string }) {
             />
           </View>
 
-          <Text className="mt-5 font-bold">Location</Text>
+          <Text className="mt-5 font-bold text-text">Location</Text>
           <View className="flex items-center flex-row gap-1">
-            <Ionicons name="location-outline" size={20} />
+            <Ionicons className="text-text" name="location-outline" size={20} />
             <Text numberOfLines={1} className="text-sm text-gray-400">
               {propertyData?.address}, {propertyData?.city}
             </Text>
